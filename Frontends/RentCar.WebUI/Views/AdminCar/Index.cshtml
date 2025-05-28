@@ -1,0 +1,98 @@
+﻿@model List<ResultCarWithBrandsDtos>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+
+        <!-- start page title -->
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Araba Listesi</h4>
+                        <p class="card-subtitle mb-4">
+                            Arabalarla ilgili ekleme, silme, güncelleme, arama ve listeleme gibi işlemleri bu sayfa üzerinden gerçekleştirebilirsiniz.
+                        </p>
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Marka</th>
+                                        <th>Model</th>
+                                        <th>Vites Türü</th>
+                                        <th>Km</th>
+                                        <th>Sil</th>
+                                        <th>Güncelle</th>
+                                        <th>Detaylar</th>
+                                        <th>Özellik Ata</th>
+                                        <th>Sitede Gör</th>
+                                        <th>Fiyat Bilgileri</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <th scope="row">@count</th>
+                                            <td>@item.BrandName</td>
+                                            <td>@item.Model</td>
+                                            <td>@item.Transmission</td>
+                                            <td>@item.Km</td>
+                                            <td>
+                                                <a href="/AdminCar/RemoveCar/@item.CarID" class="btn btn-danger text-white">
+                                                    <i class="fa fa-trash"></i> 
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/AdminCar/UpdateCar/@item.CarID" class="btn btn-success text-white">
+                                                    <i class="fa fa-edit"></i> 
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/Admin/AdminCarFeatureDetail/Index/@item.CarID" class="btn btn-dark text-white">
+                                                    <i class="fa fa-info-circle"></i> 
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/Admin/AdminCarFeatureDetail/CreateFeatureByCarID" class="btn btn-info text-white">
+                                                    <i class="fa fa-cogs"></i> 
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/CarList/CarDetail/@item.CarID" class="btn btn-warning text-white">
+                                                    <i class="fa fa-eye"></i> 
+                                                </a>
+                                            </td>
+                                            <td>
+                                                <a href="/CarList/CarDetail/@item.CarID" class="btn btn-secondary text-white">
+                                                    <i class="fa fa-tag"></i> 
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                            <a href="/AdminCar/CreateCar/" class="btn btn-primary text-white">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+
+                    </div>
+                    <!-- end card-body-->
+                </div>
+                <!-- end card -->
+
+            </div>
+            <!-- end col -->
+
+        </div>
+        <!-- end page title -->
+
+    </div> <!-- container-fluid -->
+</div>

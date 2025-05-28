@@ -1,0 +1,54 @@
+﻿<div class="d-flex justify-content-center">
+	<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+
+		<li class="nav-item">
+			<a class="nav-link active" id="pills-description-tab" data-toggle="pill" href="#pills-description" role="tab" aria-controls="pills-description" aria-expanded="true">Araç Özellikleri</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="pills-manufacturer-tab" data-toggle="pill" href="#pills-manufacturer" role="tab" aria-controls="pills-manufacturer" aria-expanded="true">Açıklama</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id="pills-review-tab" data-toggle="pill" href="#pills-review" role="tab" aria-controls="pills-review" aria-expanded="true">Yorumlar</a>
+		</li>
+	</ul>
+</div>
+@* 
+<div class="car-features">
+    <h3>Ek Özellikler</h3>
+    <form id="feature-form">
+        @foreach (var feature in Model.Features)
+        {
+            <div class="form-check">
+                <input class="form-check-input feature-checkbox" type="checkbox"
+                       id="feature-@feature.FeatureID"
+                       data-price="@feature.PriceIncrease" />
+                <label class="form-check-label" for="feature-@feature.FeatureID">
+                    @feature.Name (@feature.PriceIncrease ₺)
+                </label>
+            </div>
+        }
+    </form>
+</div>
+
+<div class="car-price">
+    <h4>Toplam Fiyat: <span id="total-price">@Model.BasePrice</span> ₺</h4>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const featureCheckboxes = document.querySelectorAll(".feature-checkbox");
+        const totalPriceElement = document.getElementById("total-price");
+        let basePrice = parseFloat(totalPriceElement.textContent);
+
+        featureCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener("change", function () {
+                const priceIncrease = parseFloat(this.dataset.price);
+                if (this.checked) {
+                    basePrice += priceIncrease; // Özellik seçildiğinde fiyat artırılır
+                } else {
+                    basePrice -= priceIncrease; // Özellik kaldırıldığında fiyat azaltılır
+                }
+                totalPriceElement.textContent = basePrice.toFixed(2); // Güncellenmiş fiyatı göster
+            });
+        });
+    });
+</script> *@

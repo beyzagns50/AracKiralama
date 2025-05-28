@@ -1,0 +1,32 @@
+﻿@* @model List<ResultCarWithRentACarDto>
+<table class="table">
+    <thead>
+        <tr>
+            <th>Marka</th>
+            <th>Model</th>
+            <th>Uygunluk</th>
+            <th>İşlem</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Brand</td>
+                <td>@item.Model</td>
+                <td>
+                    <form asp-action="SetAvailable" asp-controller="AdminCar" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@item.RentACarId" />
+                        <input type="hidden" name="available" value="@(item.Available ? "false" : "true")" />
+                        <button type="submit" class="btn btn-sm @(item.Available ? "btn-success" : "btn-danger")">
+                            @(item.Available ? "Müsait" : "Kirada")
+                        </button>
+                    </form>
+                </td>
+                <td>
+                    <!-- Diğer işlemler -->
+                </td>
+            </tr>
+        }
+    </tbody>
+</table> *@
