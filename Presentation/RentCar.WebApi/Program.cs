@@ -52,6 +52,7 @@ builder.Services.AddCors(opt =>
     });
 });
 builder.Services.AddSignalR();
+builder.Services.AddAutoMapper(typeof(MappingProfile)); // <-- Bunu ekleyin
 
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>

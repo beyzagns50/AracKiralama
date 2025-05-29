@@ -16,5 +16,7 @@
         </div>
     </div>
     @await Html.PartialAsync("/Views/AdminLayout/AdminScriptPartial.cshtml")
+    @RenderSection("Scripts", required: false)
+
 </body>
 </html>

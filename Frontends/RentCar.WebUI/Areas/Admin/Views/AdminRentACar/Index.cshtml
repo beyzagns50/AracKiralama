@@ -1,0 +1,134 @@
+﻿@{
+    ViewData["Title"] = "RentACar Yönetimi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <h4 class="mb-4">RentACar Listesi</h4>
+        <div class="table-responsive">
+            <table class="table" id="rentACarTable">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Car</th>
+                        <th>Location</th>
+                        <th>Available</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- JS ile doldurulacak -->
+                </tbody>
+            </table>
+        </div>
+
+        <h5 class="mt-5">Yeni RentACar Ekle</h5>
+        <form id="rentACarForm" class="row g-3">
+            <div class="col-md-3">
+                <select class="form-control" name="CarID" id="carSelect" required>
+                    <option value="">Araç Seçiniz</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-control" name="LocationID" id="locationSelect" required>
+                    <option value="">Lokasyon Seçiniz</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <select class="form-control" name="Available">
+                    <option value="true">Uygun</option>
+                    <option value="false">Uygun Değil</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <button type="submit" class="btn btn-primary">Ekle</button>
+            </div>
+        </form>
+        <div id="rentACarResult" class="mt-2"></div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiUrl = 'https://localhost:44308/api/RentACar';
+        const carsApiUrl = 'https://localhost:44308/api/Cars';
+        const locationsApiUrl = 'https://localhost:44308/api/Locations';
+
+        let carsCache = [];
+        let locationsCache = [];
+
+        async function loadRentACars() {
+            const response = await fetch(apiUrl);
+            const data = await response.json();
+            const tbody = document.querySelector('#rentACarTable tbody');
+            tbody.innerHTML = '';
+            data.forEach((item, idx) => {
+                // Car ve Location adlarını bulmak için cache kullanıyoruz
+                const car = carsCache.find(c => c.carID === item.carID);
+                const location = locationsCache.find(l => l.locationID === item.locationID);
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${idx + 1}</td>
+                        <td>${car ? car.model : item.carID}</td>
+                        <td>${location ? location.name : item.locationID}</td>
+                        <td>${item.available ? 'Evet' : 'Hayır'}</td>
+                    </tr>
+                `;
+            });
+        }
+
+        async function loadCars() {
+            const response = await fetch(carsApiUrl);
+            const data = await response.json();
+            carsCache = data;
+            const carSelect = document.getElementById('carSelect');
+            carSelect.innerHTML = '<option value="">Araç Seçiniz</option>';
+            data.forEach(car => {
+                carSelect.innerHTML += `<option value="${car.carID}">${car.model}</option>`;
+            });
+        }
+
+        async function loadLocations() {
+            const response = await fetch(locationsApiUrl);
+            const data = await response.json();
+            locationsCache = data;
+            const locationSelect = document.getElementById('locationSelect');
+            locationSelect.innerHTML = '<option value="">Lokasyon Seçiniz</option>';
+            data.forEach(location => {
+                locationSelect.innerHTML += `<option value="${location.locationID}">${location.name}</option>`;
+            });
+        }
+
+        document.getElementById('rentACarForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                carID: parseInt(form.CarID.value),
+                locationID: parseInt(form.LocationID.value),
+                available: form.Available.value === "true"
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const resultDiv = document.getElementById('rentACarResult');
+            if (response.ok) {
+                resultDiv.innerHTML = '<span class="text-success">Kayıt başarıyla eklendi.</span>';
+                form.reset();
+                await loadRentACars();
+            } else {
+                resultDiv.innerHTML = '<span class="text-danger">Hata oluştu.</span>';
+            }
+        });
+
+        // Sayfa yüklenince listele ve dropdownları doldur
+        (async function() {
+            await loadCars();
+            await loadLocations();
+            await loadRentACars();
+        })();
+    </script>
+}
