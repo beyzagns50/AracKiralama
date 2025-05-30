@@ -1,0 +1,112 @@
+﻿@{
+    ViewData["Title"] = "Araç Kirala";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <h2>Araç Kirala</h2>
+    <form id="rentProcessForm" class="row g-3">
+        <div class="col-md-4">
+            <select class="form-control" name="CarID" id="carSelect" required>
+                <option value="">Araç Seçiniz</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select class="form-control" name="CustomerID" id="customerSelect" required>
+                <option value="">Müşteri Seçiniz</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select class="form-control" name="PickUpLocation" id="pickUpLocationSelect" required>
+                <option value="">Alış Lokasyonu</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <select class="form-control" name="DropOffLocation" id="dropOffLocationSelect" required>
+                <option value="">Bırakış Lokasyonu</option>
+            </select>
+        </div>
+        <div class="col-md-4">
+            <input type="date" class="form-control" name="PickUpDate" required />
+        </div>
+        <div class="col-md-4">
+            <input type="date" class="form-control" name="DropOffDate" required />
+        </div>
+        <div class="col-md-4">
+            <input type="time" class="form-control" name="PickUpTime" required />
+        </div>
+        <div class="col-md-4">
+            <input type="time" class="form-control" name="DropOffTime" required />
+        </div>
+        <div class="col-md-12">
+            <input type="text" class="form-control" name="PickUpDescription" placeholder="Alış Açıklaması" />
+        </div>
+        <div class="col-md-12">
+            <input type="text" class="form-control" name="DropOffDescription" placeholder="Bırakış Açıklaması" />
+        </div>
+        <div class="col-md-4">
+            <input type="number" class="form-control" name="TotalPrice" placeholder="Toplam Fiyat" required />
+        </div>
+        <div class="col-md-12">
+            <button type="submit" class="btn btn-primary">Kirala</button>
+        </div>
+    </form>
+    <div id="rentProcessResult" class="mt-3"></div>
+</div>
+
+@section Scripts {
+    <script>
+        const apiUrl = 'https://localhost:44308/api/RentACarProcess';
+        const carsApiUrl = 'https://localhost:44308/api/Cars';
+        const customersApiUrl = 'https://localhost:44308/api/Customers';
+        const locationsApiUrl = 'https://localhost:44308/api/Locations';
+
+        async function loadDropdown(api, selectId, valueField, textField) {
+            const response = await fetch(api);
+            const data = await response.json();
+            const select = document.getElementById(selectId);
+            select.innerHTML = `<option value="">Seçiniz</option>`;
+            data.forEach(item => {
+                select.innerHTML += `<option value="${item[valueField]}">${item[textField]}</option>`;
+            });
+        }
+
+        document.getElementById('rentProcessForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            const form = e.target;
+            const data = {
+                carID: parseInt(form.CarID.value),
+                customerID: parseInt(form.CustomerID.value),
+                pickUpLocation: parseInt(form.PickUpLocation.value),
+                dropOffLocation: parseInt(form.DropOffLocation.value),
+                pickUpDate: form.PickUpDate.value,
+                dropOffDate: form.DropOffDate.value,
+                pickUpTime: form.PickUpTime.value,
+                dropOffTime: form.DropOffTime.value,
+                pickUpDescription: form.PickUpDescription.value,
+                dropOffDescription: form.DropOffDescription.value,
+                totalPrice: parseFloat(form.TotalPrice.value)
+            };
+
+            const response = await fetch(apiUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+
+            const resultDiv = document.getElementById('rentProcessResult');
+            if (response.ok) {
+                resultDiv.innerHTML = '<span class="text-success">Kiralama başarıyla oluşturuldu.</span>';
+                form.reset();
+            } else {
+                resultDiv.innerHTML = '<span class="text-danger">Hata oluştu.</span>';
+            }
+        });
+
+        // Sayfa yüklenince dropdownları doldur
+        loadDropdown(carsApiUrl, 'carSelect', 'carID', 'model');
+        loadDropdown(customersApiUrl, 'customerSelect', 'customerID', 'customerName');
+        loadDropdown(locationsApiUrl, 'pickUpLocationSelect', 'locationID', 'name');
+        loadDropdown(locationsApiUrl, 'dropOffLocationSelect', 'locationID', 'name');
+    </script>
+}
