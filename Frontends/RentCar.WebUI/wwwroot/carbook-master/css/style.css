@@ -9090,8 +9090,8 @@ h1, h2, h3, h4, h5,
 .form-control {
   height: 52px !important;
   background: #fff !important;
-  color: #000000 !important;
-  font-size: 18px;
+/*  color: #000000 !important;
+*/  font-size: 18px;
   border-radius: 5px;
   -webkit-box-shadow: none !important;
   box-shadow: none !important; }
@@ -9946,3 +9946,7 @@ textarea.form-control {
   100% {
     stroke-dasharray: 89, 200;
     stroke-dashoffset: -136px; } }
+select option {
+    color: #222 !important;
+    background: #fff !important;
+}
