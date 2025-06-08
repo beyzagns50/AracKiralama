@@ -27,6 +27,7 @@ namespace RentCar.Application.Features.Mediator.Handlers.CarPricingHandlers
                 Amount = x.Amount,
                 CarPricingId = x.CarPricingID,
                 Brand = x.Car.Brand.Name,
+                BrandId = x.Car.BrandID,
                 CoverImageUrl = x.Car.CoverImageUrl,
                 Model = x.Car.Model,
                 CarId=x.CarID
