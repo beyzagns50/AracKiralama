@@ -23,6 +23,11 @@ namespace RentCar.Application.Features.Mediator.Handlers.CarDescriptionHandlers
         public async Task<GetCarDescriptionQueryResult> Handle(GetCarDescriptionByCarIdQuery request, CancellationToken cancellationToken)
         {
             var values = await _repository.GetCarDescription(request.Id);
+            if (values == null)
+            {
+                // İsterseniz burada loglama yapabilirsiniz
+                return null; // veya yeni bir GetCarDescriptionQueryResult() dönebilirsiniz
+            }
             return new GetCarDescriptionQueryResult
             {
                 CarDescriptionID = values.CarDescriptionID,
