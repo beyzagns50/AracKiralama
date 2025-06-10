@@ -30,7 +30,9 @@ namespace RentCar.Application.Features.Mediator.Handlers.CarPricingHandlers
                 BrandId = x.Car.BrandID,
                 CoverImageUrl = x.Car.CoverImageUrl,
                 Model = x.Car.Model,
-                CarId=x.CarID
+                Fuel=x.Car.Fuel,
+                Transmission = x.Car.Transmission, // Assuming Transmission is a property of Car
+                CarId =x.CarID
             }).ToList();
         }
     }

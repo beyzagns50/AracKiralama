@@ -4,8 +4,12 @@
     Layout = "~/Views/UILayout/Index.cshtml";
     var brands = ViewBag.Brands as List<RentCar.Domain.Entities.Brand>;
     var models = ViewBag.Models as List<string>;
+    var fuels = ViewBag.Fuels as List<string>;
+    var transmissions = ViewBag.Transmissions as List<string>;
     var selectedBrand = ViewBag.SelectedBrand as int?;
     var selectedModel = ViewBag.SelectedModel as string;
+    var selectedFuel = ViewBag.SelectedFuel as string;
+    var selectedTransmission = ViewBag.SelectedTransmission as string;
     var minPrice = ViewBag.MinPrice as decimal?;
     var maxPrice = ViewBag.MaxPrice as decimal?;
 }
@@ -35,7 +39,7 @@
         <div class="col-lg-10">
             <form method="get" class="filter-card">
                 <div class="form-row align-items-end">
-                    <div class="col-md-3 mb-2">
+                    <div class="col-md-2 mb-2">
                         <label class="filter-label" for="brandId">Marka</label>
                         <select name="brandId" id="brandId" class="form-control form-control-sm" onchange="this.form.submit()">
                             <option value="">Tüm Markalar</option>
@@ -48,7 +52,7 @@
                             }
                         </select>
                     </div>
-                    <div class="col-md-3 mb-2">
+                    <div class="col-md-2 mb-2">
                         <label class="filter-label" for="model">Model</label>
                         <select name="model" id="model" class="form-control form-control-sm" onchange="this.form.submit()">
                             <option value="">Tüm Modeller</option>
@@ -61,7 +65,33 @@
                             }
                         </select>
                     </div>
-                    <div class="col-md-3 mb-2">
+                    <div class="col-md-2 mb-2">
+                        <label class="filter-label" for="fuel">Yakıt Tipi</label>
+                        <select name="fuel" id="fuel" class="form-control form-control-sm" onchange="this.form.submit()">
+                            <option value="">Tüm Yakıt Tipleri</option>
+                            @if (fuels != null)
+                            {
+                                foreach (var f in fuels)
+                                {
+                                    <option value="@f" selected="@(selectedFuel == f ? "selected" : null)">@f</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-2">
+                        <label class="filter-label" for="transmission">Vites Tipi</label>
+                        <select name="transmission" id="transmission" class="form-control form-control-sm" onchange="this.form.submit()">
+                            <option value="">Tüm Vites Tipleri</option>
+                            @if (transmissions != null)
+                            {
+                                foreach (var t in transmissions)
+                                {
+                                    <option value="@t" selected="@(selectedTransmission == t ? "selected" : null)">@t</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-2 mb-2">
                         <label class="filter-label" for="minPrice">Min Fiyat</label>
                         <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
@@ -70,7 +100,7 @@
                             <input type="number" name="minPrice" id="minPrice" class="form-control" placeholder="Min" value="@(minPrice?.ToString() ?? "")" min="1" onchange="this.form.submit()" />
                         </div>
                     </div>
-                    <div class="col-md-3 mb-2">
+                    <div class="col-md-2 mb-2">
                         <label class="filter-label" for="maxPrice">Max Fiyat</label>
                         <div class="input-group input-group-sm">
                             <div class="input-group-prepend">

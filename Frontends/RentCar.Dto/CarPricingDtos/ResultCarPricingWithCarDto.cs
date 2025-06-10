@@ -15,5 +15,7 @@ namespace RentCar.Dto.CarPricingDtos
         public string Model { get; set; }
         public decimal Amount { get; set; }
         public string CoverImageUrl { get; set; }
+        public string Fuel { get; set; } // <-- Eklendi
+        public string Transmission { get; set; } // <-- Eklendi, eğer gerekli ise
     }
 }

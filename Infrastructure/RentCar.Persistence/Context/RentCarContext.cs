@@ -7,8 +7,8 @@ namespace RentCar.Persistence.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //optionsBuilder.UseSqlServer("Server=BEYZA\\SQLEXPRESS;initial Catalog=DbBeyzaBitirme3;integrated Security=true;TrustServerCertificate=true;MultipleActiveResultSets=true;");
-            optionsBuilder.UseSqlServer("Server=MSI-BRAVO\\SQLEXPRESS;Database=DbBeyzaBitirme3;Integrated Security=True;TrustServerCertificate=True;MultipleActiveResultSets=True;");
+            optionsBuilder.UseSqlServer("Server=BEYZA\\SQLEXPRESS;initial Catalog=DbBeyzaBitirme3;integrated Security=true;TrustServerCertificate=true;MultipleActiveResultSets=true;");
+            //optionsBuilder.UseSqlServer("Server=MSI-BRAVO\\SQLEXPRESS;Database=DbBeyzaBitirme3;Integrated Security=True;TrustServerCertificate=True;MultipleActiveResultSets=True;");
         }
         public DbSet<AppUser> AppUsers { get; set; }
         public DbSet<AppRole> AppRoles { get; set; }

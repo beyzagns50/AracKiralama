@@ -14,7 +14,7 @@ namespace RentCar.WebUI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IActionResult> Index(int? brandId, string model, decimal? minPrice, decimal? maxPrice)
+        public async Task<IActionResult> Index(int? brandId, string model, decimal? minPrice, decimal? maxPrice, string fuel, string transmission)
         {
             ViewBag.v1 = "Araçlarımız";
             ViewBag.v2 = "Aracınızı Seçiniz";
@@ -52,6 +52,12 @@ namespace RentCar.WebUI.Controllers
             if (maxPrice.HasValue)
                 values = values.Where(x => x.Amount <= maxPrice.Value).ToList();
 
+            if (!string.IsNullOrEmpty(fuel))
+                values = values.Where(x => x.Fuel == fuel).ToList();
+
+            if (!string.IsNullOrEmpty(transmission))
+                values = values.Where(x => x.Transmission == transmission).ToList(); // <-- Vites filtresi
+
             // Seçili markaya göre modelleri bul
             List<string> models = new();
             if (brandId.HasValue)
@@ -59,11 +65,15 @@ namespace RentCar.WebUI.Controllers
             else
                 models = values.Select(x => x.Model).Distinct().ToList();
 
-            ViewBag.Models = models;
+            // Yakıt ve vites tiplerini ViewBag'e ekle
+            ViewBag.Fuels = values.Select(x => x.Fuel).Distinct().ToList();
+            ViewBag.Transmissions = values.Select(x => x.Transmission).Distinct().ToList(); // <-- Eklendi
             ViewBag.SelectedBrand = brandId;
             ViewBag.SelectedModel = model;
             ViewBag.MinPrice = minPrice;
             ViewBag.MaxPrice = maxPrice;
+            ViewBag.SelectedFuel = fuel;
+            ViewBag.SelectedTransmission = transmission; // <-- Eklendi
 
             return View(values);
         }
