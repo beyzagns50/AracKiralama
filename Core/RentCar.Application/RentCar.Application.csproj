@@ -9,7 +9,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Frontends\RentCar.Dto\RentCar.Dto.csproj" />
     <ProjectReference Include="..\RentCar.Domain\RentCar.Domain.csproj" />
-
   </ItemGroup>
 
   <ItemGroup>

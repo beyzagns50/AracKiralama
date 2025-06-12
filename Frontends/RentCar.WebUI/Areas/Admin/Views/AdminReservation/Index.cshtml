@@ -1,0 +1,58 @@
+@model List<RentCar.Dto.ReservationDtos.ResultReservationDto>
+
+@{
+    ViewData["Title"] = "Rezervasyon Listesi";
+    Layout = "~/Views/AdminLayout/Index.cshtml";
+    int count = 0;
+    var locationDict = ViewBag.LocationDict as Dictionary<int, string>;
+}
+
+<div class="page-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xl-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h4 class="card-title">Rezervasyon Listesi</h4>
+                        <div class="table-responsive">
+                            <table class="table mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Ad Soyad</th>
+                                        <th>Email</th>
+                                        <th>Telefon</th>
+                                        <th>Araç</th>
+                                        <th>Alýþ Lokasyonu</th>
+                                        <th>Býrakýþ Lokasyonu</th>
+                                        <th>Yaþ</th>
+                                        <th>Ehliyet Yýlý</th>
+                                        <th>Açýklama</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        count++;
+                                        <tr>
+                                            <td>@count</td>
+                                            <td>@item.Name @item.Surname</td>
+                                            <td>@item.Email</td>
+                                            <td>@item.Phone</td>
+                                            <td>@item.CarID</td>
+                                            <td>@(locationDict != null && locationDict.ContainsKey(item.PickUpLocationID) ? locationDict[item.PickUpLocationID] : "-")</td>
+                                            <td>@(locationDict != null && locationDict.ContainsKey(item.DropOffLocationID) ? locationDict[item.DropOffLocationID] : "-")</td>
+                                            <td>@item.Age</td>
+                                            <td>@item.DriverLicenseYear</td>
+                                            <td>@item.Description</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

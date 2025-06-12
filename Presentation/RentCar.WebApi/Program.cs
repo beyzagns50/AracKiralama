@@ -37,6 +37,7 @@ using RentCar.Persistence.Repositories.ReviewRepositories;
 using RentCar.Persistence.Repositories.StatisticsRepositories;
 using RentCar.Persistence.Repositories.TagCloudRepositories;
 using RentCar.WebApi.Hubs;
+using RentCar.Application.Features.Mediator.Handlers.ReservationHandlers;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpClient();
@@ -123,6 +124,8 @@ builder.Services.AddScoped<GetContactByIdQueryHandler>();
 builder.Services.AddScoped<CreateContactCommandHandler>();
 builder.Services.AddScoped<UpdateContactCommandHandler>();
 builder.Services.AddScoped<RemoveContactCommandHandler>();
+
+builder.Services.AddScoped<GetReservationListQueryHandler>();
 
 #endregion
 
